@@ -29,7 +29,7 @@ pub fn restart_server_service_systemd() -> Result<()> {
 
     pipe_exec_err(
         Command::new("systemctl")
-            .args(&["stop", ELDIRON_BIN_NAME_SERVER])
+            .args(&["restart", ELDIRON_BIN_NAME_SERVER])
             .output()?,
     )
 }
@@ -54,7 +54,7 @@ pub fn shutdown_server_service_systemd() -> Result<()> {
 
     pipe_exec_err(
         Command::new("systemctl")
-            .args(&["restart", ELDIRON_BIN_NAME_SERVER])
+            .args(&["stop", ELDIRON_BIN_NAME_SERVER])
             .output()?,
     )
 }
