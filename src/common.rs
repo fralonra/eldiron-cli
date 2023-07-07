@@ -1,8 +1,21 @@
-use std::process::Output;
+use std::{fs::remove_dir_all, path::Path, process::Output};
 
 use anyhow::{bail, Error, Result};
 use console::style;
 use which::which;
+
+pub fn remove_dir_if_exist<P>(dir: P) -> Result<bool>
+where
+    P: AsRef<Path>,
+{
+    if dir.as_ref().exists() {
+        remove_dir_all(dir)?;
+
+        return Ok(true);
+    }
+
+    Ok(false)
+}
 
 pub fn has_installed(bin_name: &str) -> bool {
     which(bin_name).is_ok()

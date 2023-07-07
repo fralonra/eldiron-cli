@@ -1,10 +1,10 @@
-use std::{fs::remove_dir_all, path::PathBuf};
+use std::path::PathBuf;
 
 use anyhow::Result;
 use dialoguer::{theme::ColorfulTheme, Confirm, Input, Select};
 
 use crate::{
-    common::has_installed,
+    common::{has_installed, remove_dir_if_exist},
     eldiron::{
         server::{build_server, setup_server_service_systemd, ELDIRON_BIN_NAME_SERVER},
         ELDIRON_GIT_URL, ELDIRON_INSTALL_BIN_DIR,
@@ -210,7 +210,9 @@ fn setup_root_custom_git(url: &str, branch: Option<&str>) -> Result<String> {
 
     let root = parse_clone_dir_from_url(&url)?;
 
-    remove_dir_all(&root);
+    if remove_dir_if_exist(&root)? {
+        println!("Removing directory: {}", root);
+    }
 
     git_clone(&url, branch)?;
 
@@ -239,7 +241,9 @@ fn setup_root_latest() -> Result<String> {
 
     let root = parse_clone_dir_from_url(ELDIRON_GIT_URL)?;
 
-    remove_dir_all(&root);
+    if remove_dir_if_exist(&root)? {
+        println!("Removing directory: {}", root);
+    }
 
     git_clone(ELDIRON_GIT_URL, latest_tag)?;
 
