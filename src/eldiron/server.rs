@@ -42,7 +42,11 @@ pub fn setup_server_service_systemd() -> Result<()> {
             .arg(include_str!("../resources/eldiron-server.service"))
             .stdout(File::create("/etc/systemd/system/eldiron-server.service")?)
             .output()?,
-    )
+    )?;
+
+    println!("Setting up systemd successfully. Run 'eldiron server restart' to start the server.");
+
+    Ok(())
 }
 
 pub fn shutdown_server_service_systemd() -> Result<()> {
