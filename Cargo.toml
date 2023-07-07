@@ -1,6 +1,6 @@
 [package]
 name = "eldiron-cli"
-version = "0.0.3"
+version = "0.0.4"
 authors = ["Fralonra <zoronlivingston@gmail.com>"]
 description = "Eldiron command-line tool"
 edition = "2021"
