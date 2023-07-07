@@ -1,3 +1,5 @@
+use std::fs::remove_dir_all;
+
 use anyhow::Result;
 use dialoguer::{theme::ColorfulTheme, Confirm, Input, Select};
 
@@ -201,9 +203,13 @@ fn setup_root_custom_git(url: &str, branch: Option<&str>) -> Result<String> {
         println!("Branch: {}", branch);
     }
 
+    let root = parse_clone_dir_from_url(&url)?;
+
+    remove_dir_all(&root);
+
     git_clone(&url, branch)?;
 
-    Ok(parse_clone_dir_from_url(&url)?)
+    Ok(root)
 }
 
 fn setup_root_custom_local(path: String) -> Result<String> {
@@ -226,7 +232,11 @@ fn setup_root_latest() -> Result<String> {
         Some(latest_tag.as_str())
     };
 
+    let root = parse_clone_dir_from_url(ELDIRON_GIT_URL)?;
+
+    remove_dir_all(&root);
+
     git_clone(ELDIRON_GIT_URL, latest_tag)?;
 
-    Ok(parse_clone_dir_from_url(ELDIRON_GIT_URL)?)
+    Ok(root)
 }
