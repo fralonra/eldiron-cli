@@ -101,8 +101,8 @@ pub fn server_setup() -> Result<()> {
         .as_path()
         .exists()
     {
-        if Confirm::new()
-            .with_prompt("Eldiron server already installed on this machine. Abort?")
+        if !Confirm::new()
+            .with_prompt("Eldiron server already installed on this machine. Re-install?")
             .interact()?
         {
             println!("Abort.");
