@@ -44,6 +44,12 @@ pub fn setup_server_service_systemd() -> Result<()> {
             .output()?,
     )?;
 
+    pipe_exec_err(
+        Command::new("systemctl")
+            .args(&["enable", ELDIRON_BIN_NAME_SERVER])
+            .output()?,
+    )?;
+
     println!("Setting up systemd successfully. Run 'eldiron server restart' to start the server.");
 
     Ok(())
