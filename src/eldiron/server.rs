@@ -50,7 +50,7 @@ pub fn setup_server_service_systemd() -> Result<()> {
             .output()?,
     )?;
 
-    println!("Setting up systemd successfully. Run 'eldiron server restart' to start the server.");
+    println!("Setting up systemd successfully. Run 'eldiron server start' to start the server.");
 
     Ok(())
 }
@@ -61,6 +61,16 @@ pub fn shutdown_server_service_systemd() -> Result<()> {
     pipe_exec_err(
         Command::new("systemctl")
             .args(&["stop", ELDIRON_BIN_NAME_SERVER])
+            .output()?,
+    )
+}
+
+pub fn start_server_service_systemd() -> Result<()> {
+    println!("Starting Eldiron server systemd service.");
+
+    pipe_exec_err(
+        Command::new("systemctl")
+            .args(&["start", ELDIRON_BIN_NAME_SERVER])
             .output()?,
     )
 }
