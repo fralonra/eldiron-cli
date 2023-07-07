@@ -1,4 +1,5 @@
 use std::{
+    fs::File,
     path::{Path, PathBuf},
     process::Command,
 };
@@ -38,11 +39,8 @@ pub fn setup_server_service_systemd() -> Result<()> {
 
     pipe_exec_err(
         Command::new("echo")
-            .args(&[
-                include_str!("../resources/eldiron-server.service"),
-                ">",
-                "/etc/systemd/system/eldiron-server.service",
-            ])
+            .arg(include_str!("../resources/eldiron-server.service"))
+            .stdout(File::create("/etc/systemd/system/eldiron-server.service")?)
             .output()?,
     )
 }
