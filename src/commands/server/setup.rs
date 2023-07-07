@@ -1,4 +1,4 @@
-use std::fs::remove_dir_all;
+use std::{fs::remove_dir_all, path::PathBuf};
 
 use anyhow::Result;
 use dialoguer::{theme::ColorfulTheme, Confirm, Input, Select};
@@ -7,7 +7,7 @@ use crate::{
     common::has_installed,
     eldiron::{
         server::{build_server, setup_server_service_systemd, ELDIRON_BIN_NAME_SERVER},
-        ELDIRON_GIT_URL,
+        ELDIRON_GIT_URL, ELDIRON_INSTALL_BIN_DIR,
     },
     git::{git_clone, git_get_remote_latest_tag, parse_clone_dir_from_url},
 };
@@ -95,7 +95,12 @@ enum SourceType {
 pub fn server_setup() -> Result<()> {
     println!("Setting up Eldiron server.");
 
-    if has_installed(ELDIRON_BIN_NAME_SERVER) {
+    if [ELDIRON_INSTALL_BIN_DIR, ELDIRON_BIN_NAME_SERVER]
+        .iter()
+        .collect::<PathBuf>()
+        .as_path()
+        .exists()
+    {
         if Confirm::new()
             .with_prompt("Eldiron server already installed on this machine. Abort?")
             .interact()?
