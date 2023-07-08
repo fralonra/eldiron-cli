@@ -13,75 +13,59 @@ use crate::{
 };
 
 enum SourceSelectItem {
-    Default = 0,
+    Default,
     Custom,
-    Total,
 }
 
-impl SourceSelectItem {
-    fn from_usize(i: usize) -> Self {
-        match i {
-            0 => Self::Default,
-            1 => Self::Custom,
-            2 => Self::Total,
-            _ => panic!("Unknown value: {}", i),
-        }
-    }
+const SOURCE_SELECT_ITEM_LIST: [SourceSelectItem; 2] =
+    [SourceSelectItem::Default, SourceSelectItem::Custom];
 
+impl SourceSelectItem {
     fn labels() -> Vec<&'static str> {
-        let len = Self::Total as usize;
+        let len = SOURCE_SELECT_ITEM_LIST.len();
 
         let mut res = Vec::with_capacity(len);
 
         for i in 0..len {
-            res.push(Self::to_label(Self::from_usize(i)));
+            res.push(Self::to_label(&SOURCE_SELECT_ITEM_LIST[i]));
         }
 
         res
     }
 
-    fn to_label(self) -> &'static str {
+    fn to_label(&self) -> &'static str {
         match self {
             Self::Default => "Default (Latest release)",
             Self::Custom => "Custom",
-            Self::Total => "Total",
         }
     }
 }
 
 enum SourceCustomSelectItem {
-    Git = 0,
+    Git,
     Local,
-    Total,
 }
 
-impl SourceCustomSelectItem {
-    fn from_usize(i: usize) -> Self {
-        match i {
-            0 => Self::Git,
-            1 => Self::Local,
-            2 => Self::Total,
-            _ => panic!("Unknown value: {}", i),
-        }
-    }
+const SOURCE_CUSTOM_SELECT_ITEM_LIST: [SourceCustomSelectItem; 2] =
+    [SourceCustomSelectItem::Git, SourceCustomSelectItem::Local];
 
+impl SourceCustomSelectItem {
     fn labels() -> Vec<&'static str> {
-        let len = Self::Total as usize;
+        let len = SOURCE_CUSTOM_SELECT_ITEM_LIST.len();
 
         let mut res = Vec::with_capacity(len);
 
         for i in 0..len {
-            res.push(Self::to_label(Self::from_usize(i)));
+            res.push(Self::to_label(&SOURCE_CUSTOM_SELECT_ITEM_LIST[i]));
         }
 
         res
     }
 
-    fn to_label(self) -> &'static str {
+    fn to_label(&self) -> &'static str {
         match self {
             Self::Git => "Git repository",
             Self::Local => "Local directory",
-            Self::Total => "Total",
         }
     }
 }
@@ -139,8 +123,8 @@ fn select_source() -> Result<SourceType> {
         .interact_opt()?;
 
     match selection {
-        Some(index) => match SourceSelectItem::from_usize(index) {
-            SourceSelectItem::Default | SourceSelectItem::Total => Ok(SourceType::Latest),
+        Some(index) => match SOURCE_SELECT_ITEM_LIST[index] {
+            SourceSelectItem::Default => Ok(SourceType::Latest),
             SourceSelectItem::Custom => select_source_custom(),
         },
         None => {
@@ -159,10 +143,9 @@ fn select_source_custom() -> Result<SourceType> {
         .interact_opt()?;
 
     match selection {
-        Some(index) => match SourceCustomSelectItem::from_usize(index) {
+        Some(index) => match SOURCE_CUSTOM_SELECT_ITEM_LIST[index] {
             SourceCustomSelectItem::Git => select_source_custom_git(),
             SourceCustomSelectItem::Local => select_source_custom_local(),
-            SourceCustomSelectItem::Total => Ok(SourceType::Latest),
         },
         None => {
             println!("No selection. Use default option instead.");
