@@ -12,9 +12,13 @@ use self::{
 
 #[derive(Debug, Subcommand)]
 pub enum ServerCommand {
+    /// Restart server service under systemd.
     Restart,
+    /// Setup a new server.
     Setup,
+    /// Shutdown server service under systemd.
     Shutdown,
+    /// Start server service under systemd.
     Start,
 }
 

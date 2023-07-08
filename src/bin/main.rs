@@ -7,6 +7,7 @@ use eldiron_cli::{
     common::{print_err, welcome},
 };
 
+/// Command-line tool for Eldiron.
 #[derive(Debug, Parser)]
 #[command(name = "eldiron")]
 #[command(author, version, about, long_about = None)]
@@ -17,6 +18,7 @@ struct Cli {
 
 #[derive(Debug, Subcommand)]
 enum Command {
+    /// Setup, start, restart, shutdown the Eldiron server.
     Server {
         #[command(subcommand)]
         command: ServerCommand,
