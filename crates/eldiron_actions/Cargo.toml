@@ -1,0 +1,13 @@
+[package]
+name = "eldiron_actions"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+which = "4.4.0"
+
+[features]
+bundle = []
+
+default = ["bundle"]

@@ -1,11 +1,5 @@
-use std::process;
-
 use anyhow::Result;
 use clap::{Parser, Subcommand};
-use eldiron_cli::{
-    commands::server::{handle_command_server, ServerCommand},
-    common::{print_err, welcome},
-};
 
 /// Command-line tool for Eldiron.
 #[derive(Debug, Parser)]
@@ -19,26 +13,28 @@ struct Cli {
 #[derive(Debug, Subcommand)]
 enum Command {
     /// Setup, start, restart, shutdown the Eldiron server.
-    Server {
+    Build {
         #[command(subcommand)]
-        command: ServerCommand,
+        command: BuildCommand,
     },
 }
 
-fn run_cli() -> Result<()> {
-    let args = Cli::parse();
-
-    welcome();
-
-    match args.command {
-        Command::Server { command } => handle_command_server(command),
-    }
+#[derive(Debug, Subcommand)]
+enum BuildCommand {
+    /// Restart server service under systemd.
+    Build,
 }
 
-fn main() {
-    if let Err(err) = run_cli() {
-        print_err(err);
+pub fn run_cli() -> Result<()> {
+    let args = Cli::parse();
 
-        process::exit(1);
+    println!("Welcome to Eldiron Cli");
+    println!("Version: {}", env!("CARGO_PKG_VERSION"));
+    println!();
+
+    match args.command {
+        Command::Build { command } => match command {
+            BuildCommand::Build => todo!(),
+        },
     }
 }

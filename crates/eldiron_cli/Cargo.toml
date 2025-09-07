@@ -1,0 +1,10 @@
+[package]
+name = "eldiron_cli"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+clap = { version = "4.3.11", features = ["derive"] }
+dialoguer = "0.10.4"
+eldiron_actions = { workspace = true }
