@@ -1,5 +1,7 @@
 # Eldiron Cli
 
+**This crate is deprecated and not intended to be used.**
+
 [![Latest version](https://img.shields.io/crates/v/eldiron-cli.svg)](https://crates.io/crates/eldiron-cli)
 ![MIT](https://img.shields.io/badge/license-MIT-blue.svg)
 
